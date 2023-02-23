@@ -5,11 +5,6 @@ import { NavigationContainer } from '@react-navigation/native';
 import { createDrawerNavigator, DrawerContentScrollView, DrawerItemList } from "@react-navigation/drawer";
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import { firebase } from './firebase';
-// import LoginScreen from './components/screens/LoginScreen';
-// import HomeScreen from './components/screens/HomeScreen';
-// import SignupScreen from './components/screens/SignupScreen';
-// import UseScreen from './components/screens/UseScreen';
-// import AnalyticsScreen from './components/screens/AnalyticsScreen';
 import Header from './components/Header';
 import Signup from './src/Signup';
 import Login from './src/Login';
@@ -102,21 +97,6 @@ function App() {
   }
 
   return(
-    // <Stack.Navigator>
-    //     <Stack.Screen
-    //      name='Home'
-    //      component={Home}
-    //      options={{
-    //       headerTitle: () => <Header name="Home"/>,
-    //       headerStyle: {
-    //         height: 150,
-    //         backgroundColor: "#788b91",
-    //         shadowColor: '#000',
-    //         elevation: 25
-    //       }
-    //      }}
-    //     />
-    // </Stack.Navigator>
     <Menu.Navigator
       initialRouteName="Home"
       drawerPosition='left'

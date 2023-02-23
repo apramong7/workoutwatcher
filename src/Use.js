@@ -78,22 +78,6 @@ const Use = () => {
             <Text style={styles.textInstructions}>*hand instructions*{"\n"}<IconHand name='hand-left' size={180} color='black' /></Text>
           </View>
       </SafeAreaView>
-
-      // <SafeAreaView>
-      // <View style={styles.inputContainer}>
-      //   <Text style={styles.textCalibration}>
-      //     Initial Calibration
-      //   </Text>
-      //   {/* <View style={styles.row}>
-      //     <Text style={styles.textTitle}>Foot Length:</Text>
-      //     <TextInput style={styles.textInput}
-      //       placeholder="cm"
-      //       defaultValue={''}
-      //       multiline={false}
-      //     /> 
-      //   </View> */}
-      // </View>
-      // </SafeAreaView>
     );
   }
 

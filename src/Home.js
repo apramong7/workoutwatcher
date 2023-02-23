@@ -1,4 +1,4 @@
-import { View, Text, StyleSheet, TouchableOpacity, Dimensions } from 'react-native'
+import { Text, Dimensions } from 'react-native'
 import React, { useState, useEffect } from 'react'
 import { firebase } from '../firebase'
 import { SafeAreaView } from 'react-native-safe-area-context'
