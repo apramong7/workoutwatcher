@@ -40,11 +40,6 @@ const Use = () => {
       <SafeAreaView
        edges={['bottom', 'left', 'right']} 
        style={styles.useContainerTwo}>
-        <View style={styles.inputContainer}>
-          <Text style={styles.textPosition}>
-            Form Correction
-          </Text>
-        </View>
 
         <View style={styles.inputContainer}>
           <Text style={styles.textPosition}>
@@ -91,7 +86,7 @@ const Use = () => {
           Initial Calibration
         </Text>
         <View style={styles.row}>
-          <Text style={styles.textTitle}>Foot Length:</Text>
+          <Text style={styles.textTitle}>Shoulder Width:</Text>
           <TextInput style={styles.textInput}
             placeholder="cm"
             defaultValue={''}
@@ -99,29 +94,29 @@ const Use = () => {
           /> 
         </View>
         <View style={styles.row}>
-          <Text style={styles.textTitle}>Hand Length:</Text>
+          <Text style={styles.textTitle}>Hip Width:</Text>
           <TextInput style={styles.textInput}
             placeholder="cm"
             defaultValue={''}
             multiline={false}
           /> 
         </View>
-        <View style={styles.row}>
+        {/* <View style={styles.row}>
           <Text style={styles.textTitle}>Weight:</Text>
           <TextInput style={styles.textInput}
             placeholder="cm"
             defaultValue={''}
             multiline={false}
           /> 
-        </View>
-        <Text style={styles.instructions}>Stand straight for foot detection</Text>
+        </View> */}
+        {/* <Text style={styles.instructions}>Stand straight for foot detection</Text>
         <View style={styles.detectionSection}>
           <Text style={styles.detectionButton}>Foot detected!</Text>
         </View>
         <Text style={styles.instructions}>Hands on mat</Text>
         <View style={styles.detectionSection}>
           <Text style={styles.detectionButton}>Hands detexted!</Text>
-        </View>
+        </View> */}
         <TouchableOpacity
           style={styles.enterButtonSection}
           onPress={() => setMetricsCompleted(true)}

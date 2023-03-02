@@ -10,33 +10,36 @@ const styles = StyleSheet.create({
   },
   positionContainer: {
     flex: 0.5,
+    marginTop: -50
   },
   inputContainer: {
     width: '100%',
+    height: 150
   },
   textCalibration: {
     backgroundColor: '#fff',
     alignSelf: 'flex-start',
     width: '100%',
-    height: '12%',
+    height: '28%',
     fontSize: 22,
     paddingLeft: 5,
     textAlignVertical: 'center',
-    color: '#888888'
+    color: '#888888',
+    marginBottom: 15,
   },
   textPosition: {
     backgroundColor: '#fff',
     alignSelf: 'flex-start',
     width: '100%',
-    marginBottom: 15,
+    height: '28%',
     fontSize: 22,
     paddingLeft: 5,
-    paddingVertical: 5,
     textAlignVertical: 'center',
-    color: '#888888'
+    color: '#888888',
+    marginBottom: 15,
   },
   row: {
-    flex: 1,
+    flex: 0.5,
     flexDirection: 'row',
     width: "80%",
     textAlign: "left",
@@ -45,24 +48,26 @@ const styles = StyleSheet.create({
     alignItems: 'flex-start',
     marginLeft: 5,
     paddingRight: 5,
-    marginTop: 15,
-    paddingTop: 2,
+    marginTop: 1,
+    paddingTop: 1,
     paddingBottom: 2,
   },
   rowPosition: {
-    flex: 1,
+    
     flexDirection: 'row',
     width: "100%",
     textAlign: "left",
     justifyContent: "space-between",
     alignItems: 'flex-start',
-    marginLeft: 20
+    marginLeft: 20,
+    marginTop: -15,
+    height: 55
   },
   textTitle: {
     width: '50%',
     marginLeft: 25,
     fontSize: 18,
-    color: '#566266',
+    color: '#566266'
   },
   textInstructions: {
     width: '50%',
@@ -92,7 +97,9 @@ const styles = StyleSheet.create({
    paddingVertical: 5,
    fontSize: 20,
    marginTop: 15,
-   borderRadius: 5
+   borderRadius: 5,
+   height: 35,
+   marginTop: 45,
  },
  instructions: {
     color: '#566266',
