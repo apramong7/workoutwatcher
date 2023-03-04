@@ -1,10 +1,10 @@
 import SerialPortAPI from 'react-native-serial-port-api';
 
-async function example() {
+export default async function example() {
   const serialPort = await SerialPortAPI.open("/dev/rfcomm10", { baudRate: 38400 });
 
   SerialPortAPI.open("/dev/rfcomm10", { baudRate: 38400 })
-    .then(serialPort => console.log(serialPort))
+    .then(serialPort => console.log('connected to port', serialPort))
     .catch(err => console.log(err.message))
 
   // subscribe received data
