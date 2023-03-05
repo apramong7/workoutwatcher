@@ -1,4 +1,4 @@
-import { View, Text, KeyboardAvoidingView, TextInput, TouchableOpacity, Button } from 'react-native'
+import { View, Text, StyleSheet, Dimensions, KeyboardAvoidingView, TextInput, TouchableOpacity, Button, FlatList } from 'react-native'
 import React, { useState, useEffect } from 'react'
 import { firebase } from '../firebase'
 import { SafeAreaView } from 'react-native-safe-area-context'
@@ -7,35 +7,55 @@ import IconHand from 'react-native-vector-icons/Ionicons';
 import styles from '../styles/UseStyle'
 
 
+const numColumns = 2;
+
 const Use = () => {
   const [name, setName] = useState('')
   const [lastLogIn, setLastLogin] = useState('')
-  const [metrics, setMetrics] = useState('')
-  const [metricsCompleted, setMetricsCompleted] = useState(false)
+  const [metricsCompleted, setMetricsCompleted] = useState(false);
+  const [poseSelected, setPoseSelected] = useState('');
+  const [newPose, setNewPose] = useState(false);
+  const [shoulderWidth, setShoulderWidth] = useState();
+  const [hipWidth, setHipWidth] = useState();
+
+
+  const  YogaPoses = [
+    { key: "Tree Pose" },
+    { key: "Reclining Hero Pose" },
+    { key: "Warrior 1 Pose" },
+    { key: "Triangle Pose" },
+    { key: "Downward Dog Pose" },
+  ]
 
   useEffect(() => {
     firebase.firestore().collection('users')
-    .doc(firebase.auth().currentUser.uid).get()
-    .then((snapshot) => {
-      if(snapshot.exists){
-        setName(snapshot.data())
-      }
-      else {
-        console.log('User does not exist')
-      }
+    .doc(firebase.auth().currentUser.uid)
+    .set({ 
+      ['poseSelected']:poseSelected,
+    }, 
+    { merge: true })
+    .catch((error) => {
+      alert(error.message)
     })
-
-    const user = firebase.auth().currentUser;
-    let lastLogInAt = user.metadata.lastLoginAt;
-    lastLogInAt = parseInt(lastLogInAt);
-    let dateLastLogInAt = new Date();
-    dateLastLogInAt.setTime(lastLogInAt);
-
-    setLastLogin(dateLastLogInAt.toString().slice(0, 24));
-  }, [])
+  }, [poseSelected])
 
 
-  if(metricsCompleted) {
+  registerMetrics = (shoulderWidth, hipWidth) => {
+          firebase.firestore().collection('users')
+          .doc(firebase.auth().currentUser.uid)
+          .set({ 
+            ['shoulderWidth']:shoulderWidth,
+            ['hipWidth']: hipWidth 
+          }, 
+          { merge: true })
+          .catch((error) => {
+            alert(error.message)
+          })
+       setMetricsCompleted(true);
+  }
+
+
+  if(newPose) {
     return (
       <SafeAreaView
        edges={['bottom', 'left', 'right']} 
@@ -76,6 +96,32 @@ const Use = () => {
     );
   }
 
+  
+    if(metricsCompleted) {
+    return (
+      <SafeAreaView
+       edges={['bottom', 'left', 'right']} 
+       style={styles.useContainerTwo}>
+        <Text style={styles.textSelect}>Select a yoga pose</Text>
+        <View style={styles.useContainer}>
+         <FlatList
+            style={newStyles.container}
+            data={ YogaPoses }
+            renderItem={ ({item}) =>  
+               <TouchableOpacity
+                 style={newStyles.item}
+                 onPress={() => {setPoseSelected(item.key), setNewPose(true)}}
+               >
+                   <Text style={newStyles.itemText} >{item.key}</Text>
+               </TouchableOpacity>
+              }
+            numColumns={2}
+         />
+       </View>
+      </SafeAreaView>
+    );
+  }
+
 
   return (
     <KeyboardAvoidingView
@@ -91,6 +137,7 @@ const Use = () => {
             placeholder="cm"
             defaultValue={''}
             multiline={false}
+            onChangeText={(shoulder) => setShoulderWidth(shoulder)}
           /> 
         </View>
         <View style={styles.row}>
@@ -99,27 +146,12 @@ const Use = () => {
             placeholder="cm"
             defaultValue={''}
             multiline={false}
+            onChangeText={(hip) => setHipWidth(hip)}
           /> 
         </View>
-        {/* <View style={styles.row}>
-          <Text style={styles.textTitle}>Weight:</Text>
-          <TextInput style={styles.textInput}
-            placeholder="cm"
-            defaultValue={''}
-            multiline={false}
-          /> 
-        </View> */}
-        {/* <Text style={styles.instructions}>Stand straight for foot detection</Text>
-        <View style={styles.detectionSection}>
-          <Text style={styles.detectionButton}>Foot detected!</Text>
-        </View>
-        <Text style={styles.instructions}>Hands on mat</Text>
-        <View style={styles.detectionSection}>
-          <Text style={styles.detectionButton}>Hands detexted!</Text>
-        </View> */}
         <TouchableOpacity
           style={styles.enterButtonSection}
-          onPress={() => setMetricsCompleted(true)}
+          onPress={() => registerMetrics(shoulderWidth, hipWidth)}
         >
             <Text style={styles.enterButton}>Done</Text>
         </TouchableOpacity>
@@ -129,3 +161,26 @@ const Use = () => {
 }
 
 export default Use
+
+
+const newStyles = StyleSheet.create({
+  container: {
+    flex: 1,
+    marginVertical: 20,
+  },
+  item: {
+    backgroundColor: '#7b8c93',
+    alignItems: 'center',
+    justifyContent: 'center',
+    flex: 1,
+    margin: 1,
+    height: Dimensions.get('window').width / numColumns*0.5, // approximate a square
+  },
+  itemInvisible: {
+    backgroundColor: 'transparent',
+  },
+  itemText: {
+    color: '#fff',
+    fontSize: 20,
+  },
+});

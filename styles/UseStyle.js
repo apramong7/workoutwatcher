@@ -10,17 +10,27 @@ const styles = StyleSheet.create({
   },
   positionContainer: {
     flex: 0.5,
-    marginTop: -50
+    marginTop: 10
   },
   inputContainer: {
     width: '100%',
-    height: 150
   },
   textCalibration: {
     backgroundColor: '#fff',
     alignSelf: 'flex-start',
     width: '100%',
-    height: '28%',
+    // height: '28%',
+    fontSize: 22,
+    paddingLeft: 5,
+    paddingVertical: 10,
+    textAlignVertical: 'center',
+    color: '#888888',
+    marginBottom: 15,
+  },
+  textSelect: {
+    alignSelf: 'flex-start',
+    width: '100%',
+    height: 40,
     fontSize: 22,
     paddingLeft: 5,
     textAlignVertical: 'center',
@@ -31,7 +41,7 @@ const styles = StyleSheet.create({
     backgroundColor: '#fff',
     alignSelf: 'flex-start',
     width: '100%',
-    height: '28%',
+    height: 40,
     fontSize: 22,
     paddingLeft: 5,
     textAlignVertical: 'center',
@@ -53,15 +63,13 @@ const styles = StyleSheet.create({
     paddingBottom: 2,
   },
   rowPosition: {
-    
     flexDirection: 'row',
     width: "100%",
     textAlign: "left",
     justifyContent: "space-between",
     alignItems: 'flex-start',
     marginLeft: 20,
-    marginTop: -15,
-    height: 55
+    marginBottom: 15
   },
   textTitle: {
     width: '50%',
@@ -152,7 +160,23 @@ const styles = StyleSheet.create({
     color: '#07192e',
     fontWeight: 'bold',
     fontSize: 15,
-  }
+  },
+  GridViewContainer: {
+   flex:1,
+   justifyContent: 'space-between',
+   alignItems: 'flex-start',
+   height: 50,
+   margin: 5,
+
+},
+GridViewTextLayout: {
+   fontSize: 20,
+   justifyContent: 'center',
+   color: '#fff',
+   padding: 10,
+   backgroundColor: '#7b8c93',
+ }
+
 })
 
 export default styles
