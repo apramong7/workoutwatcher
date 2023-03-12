@@ -5,19 +5,22 @@ import { SafeAreaView } from 'react-native-safe-area-context'
 import Icon from 'react-native-vector-icons/Foundation';
 import IconHand from 'react-native-vector-icons/Ionicons';
 import styles from '../styles/UseStyle'
+import { ScrollView } from 'react-native-gesture-handler';
 
-
-const numColumns = 2;
 
 const Use = () => {
-  const [name, setName] = useState('')
-  const [lastLogIn, setLastLogin] = useState('')
   const [metricsCompleted, setMetricsCompleted] = useState(false);
   const [poseSelected, setPoseSelected] = useState('');
   const [newPose, setNewPose] = useState(false);
-  const [shoulderWidth, setShoulderWidth] = useState();
-  const [hipWidth, setHipWidth] = useState();
-
+  const [shoulderWidth, setShoulderWidth] = useState(null);
+  const [hipWidth, setHipWidth] = useState(null);
+  const [handsInstructions, setHandsInstructions] = useState(null);
+  const [feetInstructions, setFeetInstructions] = useState(null);
+  const [handsPressure, setHandsPressure] = useState(null);
+  const [feetPressure, setFeetPressure] = useState(null);
+  const [isPoseCorrect, setIsPoseCorrect] = useState(false);
+  const [disabled, setDisable] = useState(true);
+  const [returnToMenu, setReturnToMenu] = useState(false);
 
   const  YogaPoses = [
     { key: "Tree Pose" },
@@ -25,6 +28,17 @@ const Use = () => {
     { key: "Warrior 1 Pose" },
     { key: "Triangle Pose" },
     { key: "Downward Dog Pose" },
+  ]
+
+  const initialCalibrationData = [
+    { id: 1, 
+      textName: 'Shoulder Width:', 
+      textInputName: 'cm' },
+    {
+      id: 2,
+      textName: 'Hip Width:',
+      textInputName: 'cm',
+    }
   ]
 
   useEffect(() => {
@@ -39,25 +53,90 @@ const Use = () => {
     })
   }, [poseSelected])
 
+  useEffect(() => {
+    if(shoulderWidth && hipWidth) {
+      setDisable(false)
+    }
+  }, [shoulderWidth, hipWidth])
+
+  useEffect(() => {
+    const subscriber = firebase.firestore()
+      .collection('users')
+      .doc(firebase.auth().currentUser.uid)
+      .onSnapshot(documentSnapshot => {
+        setIsPoseCorrect(documentSnapshot.data().isPoseCorrect)
+        setHandsInstructions(documentSnapshot.data().hands);
+        setFeetInstructions(documentSnapshot.data().feet);
+        setHandsPressure(documentSnapshot.data().pressureHands);
+        setFeetPressure(documentSnapshot.data().pressureFeet);
+      });
+
+    // Stop listening for updates when no longer required
+    return () => subscriber();
+  }, [newPose]);
+
+  useEffect(() => {
+
+  }, [returnToMenu])
+  
 
   registerMetrics = (shoulderWidth, hipWidth) => {
-          firebase.firestore().collection('users')
-          .doc(firebase.auth().currentUser.uid)
-          .set({ 
-            ['shoulderWidth']:shoulderWidth,
-            ['hipWidth']: hipWidth 
-          }, 
-          { merge: true })
-          .catch((error) => {
-            alert(error.message)
-          })
-       setMetricsCompleted(true);
+    firebase.firestore().collection('users')
+    .doc(firebase.auth().currentUser.uid)
+    .set({ 
+      ['shoulderWidth']:shoulderWidth,
+      ['hipWidth']: hipWidth 
+    }, 
+    { merge: true })
+    .catch((error) => {
+      alert(error.message)
+    })
+    setMetricsCompleted(true);
   }
 
+ getInstructions = (positionInst) => {
+    if (!handsInstructions || !feetInstructions || !handsPressure || !feetPressure) {
+      return <Text>Loading...</Text>
+    }
 
-  if(newPose) {
+    if(positionInst) { 
+      return(
+        <>
+          <View style={styles.rowInstructions}>
+            {Object.keys(feetInstructions).map((keyNameFeet, i) => {
+              return (<Text key={i} style={styles.textInstructions}>{feetInstructions[keyNameFeet]}</Text>)
+            })} 
+          </View> 
+          <View style={styles.rowInstructions}>
+            {Object.keys(handsInstructions).map((keyName, i) => {
+              return (<Text key={i} style={styles.textInstructions}>{handsInstructions[keyName]}</Text>)
+            })} 
+          </View>
+        </>
+      )
+    }
+
+    return(
+      <>
+        <View style={styles.rowInstructions}>
+          {Object.keys(feetPressure).map((keyNameFeet, i) => {
+            return (<Text key={i} style={styles.textInstructions}>{feetPressure[keyNameFeet]}</Text>)
+          })} 
+          <Icon name='foot' size={180} color='black' />
+        </View> 
+        <View style={styles.rowInstructions}>
+          {Object.keys(handsPressure).map((keyName, i) => {
+            return (<Text key={i} style={styles.textInstructions}>{handsPressure[keyName]}</Text>)
+          })} 
+          <IconHand name='hand-left' size={180} color='black' />
+        </View>
+      </>
+    )
+  }
+
+  if((isPoseCorrect === false) && newPose) {
     return (
-      <SafeAreaView
+      <ScrollView
        edges={['bottom', 'left', 'right']} 
        style={styles.useContainerTwo}>
 
@@ -67,120 +146,165 @@ const Use = () => {
           </Text>
         </View> 
 
-        <View style={styles.positionContainer}>
-          <View style={styles.rowPosition}>
-            <Text style={styles.textInstructions}>*feet instructions*</Text>
-            <Text style={styles.textInstructions}>*hand instructions*</Text>
-          </View>
-          <View style={styles.rowPosition}>
-            <Text style={styles.textInstructions}>Move Left Foot: {"\n"}*insert movement*</Text>
-            <Text style={styles.textInstructions}>Move Left Foot: {"\n"}*insert movement*</Text>
-          </View>
-          <View style={styles.rowPosition}>
-            <Text style={styles.textInstructions}>Move Right Foot:{"\n"}*insert movement*</Text>
-            <Text style={styles.textInstructions}>Move Right Hand:{"\n"}*insert movement*</Text>
-          </View>
-          </View>
+        <View style={styles.columnInstructions}>
+            {getInstructions(true)}
+        </View>
 
-          <View style={styles.inputContainer}>
+        <View style={styles.inputContainer}>
           <Text style={styles.textPosition}>
             Pressure Correction
           </Text>
         </View> 
 
-          <View style={styles.rowPosition}>
-            <Text style={styles.textInstructions}>*feet instructions*{"\n"}<Icon name='foot' size={180} color='black' /></Text>
-            <Text style={styles.textInstructions}>*hand instructions*{"\n"}<IconHand name='hand-left' size={180} color='black' /></Text>
-          </View>
-      </SafeAreaView>
+        <View style={styles.columnInstructions}>
+            {getInstructions(false)}
+        </View>
+
+      </ScrollView>
+    );
+  }
+
+  if(newPose && isPoseCorrect === true) {
+    return(
+      <>
+      <Text>Perfect! Hold the pose for 30 seconds</Text>
+      <View>
+        <TouchableOpacity
+      //   style={styles.enterButtonSection}
+         onPress={() => {setReturnToMenu(true), console.log('select a new pose has been set to true')}}
+        >
+           <Text style={styles.returnMenu} >Select another pose</Text>
+        </TouchableOpacity>
+      </View>
+      </>
+    )
+  }
+
+
+  getMenu =() => {
+    return (
+      <>
+        <Text style={styles.textSelect}>Select a yoga pose</Text>
+        <View style={styles.containerFlatList}>
+         <FlatList
+            data={ YogaPoses }
+            renderItem={ ({item}) =>  
+               <TouchableOpacity
+                 style={styles.buttonYogaPose}
+                 onPress={() => {setPoseSelected(item.key), setNewPose(true)}}
+               >
+                   <Text style={styles.textYogaPose} >{item.key}</Text>
+               </TouchableOpacity>
+              }
+            numColumns={2}
+         />
+       </View>
+      </>
     );
   }
 
   
     if(metricsCompleted) {
     return (
-      <SafeAreaView
-       edges={['bottom', 'left', 'right']} 
-       style={styles.useContainerTwo}>
+      <>
         <Text style={styles.textSelect}>Select a yoga pose</Text>
-        <View style={styles.useContainer}>
+        <View style={styles.containerFlatList}>
          <FlatList
-            style={newStyles.container}
             data={ YogaPoses }
             renderItem={ ({item}) =>  
                <TouchableOpacity
-                 style={newStyles.item}
+                 style={styles.buttonYogaPose}
                  onPress={() => {setPoseSelected(item.key), setNewPose(true)}}
                >
-                   <Text style={newStyles.itemText} >{item.key}</Text>
+                   <Text style={styles.textYogaPose} >{item.key}</Text>
                </TouchableOpacity>
               }
             numColumns={2}
          />
        </View>
-      </SafeAreaView>
+      </>
     );
   }
 
+  // if(returnToMenu) {
+  //   return (
+  //     <>
+  //       <Text>This is back to menu</Text>
+  //       {/* <Text style={styles.textSelect}>Select a yoga pose</Text>
+  //       <View style={styles.containerFlatList}>
+  //        <FlatList
+  //           data={ YogaPoses }
+  //           renderItem={ ({item}) =>  
+  //              <TouchableOpacity
+  //                style={styles.buttonYogaPose}
+  //                onPress={() => {setPoseSelected(item.key), setNewPose(true), setReturnToMenu(false)}}
+  //              >
+  //                  <Text style={styles.textYogaPose} >{item.key}</Text>
+  //              </TouchableOpacity>
+  //             }
+  //           numColumns={2}
+  //        /> */}
+  //      {/* </View> */}
+  //     </>
+  //   );
+  // }
 
   return (
-    <KeyboardAvoidingView
-      style={styles.useContainer}
-    >
+    <View style={styles.calibrationContainer}>
       <View style={styles.inputContainer}>
-        <Text style={styles.textCalibration}>
-          Initial Calibration
-        </Text>
-        <View style={styles.row}>
-          <Text style={styles.textTitle}>Shoulder Width:</Text>
-          <TextInput style={styles.textInput}
-            placeholder="cm"
-            defaultValue={''}
-            multiline={false}
-            onChangeText={(shoulder) => setShoulderWidth(shoulder)}
-          /> 
-        </View>
-        <View style={styles.row}>
-          <Text style={styles.textTitle}>Hip Width:</Text>
-          <TextInput style={styles.textInput}
-            placeholder="cm"
-            defaultValue={''}
-            multiline={false}
-            onChangeText={(hip) => setHipWidth(hip)}
-          /> 
-        </View>
-        <TouchableOpacity
-          style={styles.enterButtonSection}
-          onPress={() => registerMetrics(shoulderWidth, hipWidth)}
-        >
-            <Text style={styles.enterButton}>Done</Text>
-        </TouchableOpacity>
+         <Text style={styles.textCalibration}>
+           Initial Calibration
+         </Text>
       </View>
-    </KeyboardAvoidingView>
+
+    <FlatList
+      style={{ width: '100%', flex: 1 }}
+      data={initialCalibrationData}
+      contentContainerStyle={{paddingBottom:1}} 
+      maxToRenderPerBatch={2}
+      initialNumToRender={2}
+      showsVerticalScrollIndicator={false}
+      renderItem={({ item }) => (
+        <View
+        style={styles.columnContainer}>
+          <Text style={styles.textName}>
+            {item.textName}
+          </Text>
+          <TextInput
+            placeholder={item.textInputName}
+            placeholderTextColor="#303030"
+            onChangeText={(a) => {
+              if(item.textName === 'Shoulder Width:') {
+                setShoulderWidth(a)
+              } else {
+                setHipWidth(a)
+              }
+            }}
+            style={styles.textInputName}
+          />
+        </View>
+      )}
+      ListFooterComponent={() => 
+      <View>
+      <TouchableOpacity
+       style={styles.enterButtonSection}
+       disabled={disabled}
+       activeOpacity={disabled ? 1 : 0.4}
+       onPress={() => {
+        if(shoulderWidth && hipWidth) {
+          registerMetrics(shoulderWidth, hipWidth)
+        }
+       }}
+      >
+         <Text style={disabled? styles.disableButton : styles.enterButton}>Done</Text>
+      </TouchableOpacity>
+      </View>
+      }   
+    />
+  </View>
+
   )
 }
 
 export default Use
 
-
-const newStyles = StyleSheet.create({
-  container: {
-    flex: 1,
-    marginVertical: 20,
-  },
-  item: {
-    backgroundColor: '#7b8c93',
-    alignItems: 'center',
-    justifyContent: 'center',
-    flex: 1,
-    margin: 1,
-    height: Dimensions.get('window').width / numColumns*0.5, // approximate a square
-  },
-  itemInvisible: {
-    backgroundColor: 'transparent',
-  },
-  itemText: {
-    color: '#fff',
-    fontSize: 20,
-  },
-});
