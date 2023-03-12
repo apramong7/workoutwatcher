@@ -1,6 +1,5 @@
-import { StatusBar } from 'expo-status-bar';
 import React, { useState, useEffect } from 'react';
-import { StyleSheet, Text, View, TouchableOpacity } from 'react-native';
+import { StyleSheet, Text, View } from 'react-native';
 import { NavigationContainer } from '@react-navigation/native';
 import { createDrawerNavigator, DrawerContentScrollView, DrawerItemList } from "@react-navigation/drawer";
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
@@ -9,7 +8,7 @@ import Header from './components/Header';
 import Signup from './src/Signup';
 import Login from './src/Login';
 import Home from './src/Home';
-import Use from './src/Use';
+import Use from './src/UseScreens/Use';
 import Analytics from './src/Analytics';
 import { Button } from 'react-native-paper';
 
@@ -77,7 +76,7 @@ function App() {
     return(
       <>
         <View>
-          <Text>HEADER</Text>
+          <Text></Text>
         </View>
         <DrawerContentScrollView {...props}>
           <View style={{flex:1}}>

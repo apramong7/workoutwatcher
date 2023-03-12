@@ -6,7 +6,8 @@ const styles = StyleSheet.create({
   },
   useContainerTwo: {
     flex: 1,
-    marginTop: 0
+    marginTop: 0,
+   
   },
   positionContainer: {
     flex: 0.5,
@@ -14,6 +15,49 @@ const styles = StyleSheet.create({
   },
   inputContainer: {
     width: '100%',
+  },
+  calibrationContainer: {
+    flex: 1,
+    alignItems: 'center',
+  },
+  containerFlatList: {
+    justifyContent: 'center',
+    flex:1,
+    margin: 10,
+    marginTop: 0,
+  },
+  columnContainer: {
+    justifyContent: 'center',
+    alignSelf: 'center',
+    alignItems: 'center',
+    alignContent: 'center',
+    flexDirection: 'row',
+  },
+  columnInstructions: {
+    flex: 1,
+    flexDirection: 'row',
+    flexWrap: 'wrap',
+    alignItems: 'flex-start',
+    paddingBottom: 25
+  },
+  rowInstructions: {
+    width: '50%', // is 50% of container width
+    padding: 10
+  },
+  textName: {
+    textAlign: 'left', 
+    flex: 1, 
+    padding: 10,
+    paddingLeft: 20,
+    fontSize: 18,
+    color: '#566266'
+  },
+  textInputName: {
+    flex: 1,
+    padding: 5,
+    backgroundColor: 'white',
+    fontSize: 18,
+    marginRight: 10,
   },
   textCalibration: {
     backgroundColor: '#fff',
@@ -48,6 +92,10 @@ const styles = StyleSheet.create({
     color: '#888888',
     marginBottom: 15,
   },
+  buttonText: {
+    color: '#fff',
+    fontSize: 20,
+  },
   row: {
     flex: 0.5,
     flexDirection: 'row',
@@ -78,9 +126,22 @@ const styles = StyleSheet.create({
     color: '#566266'
   },
   textInstructions: {
-    width: '50%',
     fontSize: 16,
     color: '#566266',
+  },
+  buttonYogaPose: {
+    justifyContent: 'center',
+    flex:1,
+    alignItems: 'center',
+    height: 100,
+    margin: 5,
+    backgroundColor: '#7b8c93'
+  },
+  textYogaPose: {
+    color: '#fff',
+    padding: 10,
+    fontSize: 20,
+    justifyContent: 'center',
   },
   textInput: {
     width: '40%',
@@ -104,10 +165,33 @@ const styles = StyleSheet.create({
    textAlign: "center",
    paddingVertical: 5,
    fontSize: 20,
-   marginTop: 15,
    borderRadius: 5,
    height: 35,
    marginTop: 45,
+ },
+ returnMenu: {
+  backgroundColor: '#7b8c93',
+  color: '#fff',
+  // width: '30%',
+  textAlign: "center",
+  paddingVertical: 5,
+  fontSize: 20,
+  borderRadius: 5,
+  height: 35,
+  marginTop: 45,
+ },
+ disableButton: {
+  backgroundColor: '#b1bbbf',
+  color: '#fff',
+  width: '30%',
+  textAlign: "center",
+  paddingVertical: 5,
+  fontSize: 20,
+  marginTop: 15,
+  borderRadius: 5,
+  height: 35,
+  marginTop: 45,
+  
  },
  instructions: {
     color: '#566266',
