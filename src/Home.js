@@ -30,6 +30,16 @@ const Home = () => {
     let dateLastLogInAt = new Date();
     dateLastLogInAt.setTime(lastLogInAt);
 
+    firebase.firestore().collection('users')
+    .doc(firebase.auth().currentUser.uid)
+    .set({ 
+      ['poseSelected']: null
+    }, 
+    { merge: true })
+    .catch((error) => {
+      alert(error.message)
+    })
+
     setLastLogin(dateLastLogInAt.toString().slice(0, 24));
   }, [])
 
@@ -40,10 +50,10 @@ const Home = () => {
         <Text style={styles.header}>USAGE</Text>
         <BarChart
           data={{
-            labels: ['January', 'February', 'March', 'April', 'May', 'June'],
+            labels: ['January', 'February', 'March'],
             datasets: [
               {
-                data: [20, 45, 28, 80, 99, 43],
+                data: [20, 45, 80],
               },
             ],
           }}
