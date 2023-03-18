@@ -6,39 +6,43 @@ import styles from '../../styles/UseStyle'
 
 const  YogaPoses = [
   { key: "Tree Pose" },
-  { key: "Reclining Hero Pose" },
   { key: "Warrior 1 Pose" },
-  { key: "Triangle Pose" },
-  { key: "Downward Dog Pose" },
+  { key: "Warrior 2 Pose" },
+  { key: "Triangle Right Pose" },
+  { key: "Triangle Left Pose" },
 ]
 
-
 const PosesMenu = ({navigation}) => {
-  const [poseSelected, setPoseSelected] = useState('');
+  const [poseSelected, setPoseSelected] = useState(null);
   const [newPose, setNewPose] = useState(false);
-  const [handsInstructions, setHandsInstructions] = useState(null);
-  const [feetInstructions, setFeetInstructions] = useState(null);
-  const [handsPressure, setHandsPressure] = useState(null);
-  const [feetPressure, setFeetPressure] = useState(null);
+
 
   useEffect(() => {
-    const subscriber = firebase.firestore()
-      .collection('users')
+    if(poseSelected !== null) {
+      firebase.firestore().collection('users')
       .doc(firebase.auth().currentUser.uid)
-      .onSnapshot(documentSnapshot => {
-        setHandsInstructions(documentSnapshot.data().hands);
-        setFeetInstructions(documentSnapshot.data().feet);
-        setHandsPressure(documentSnapshot.data().pressureHands);
-        setFeetPressure(documentSnapshot.data().pressureFeet);
-      });
+      .set({ 
+        ['poseSelected']: poseSelected,
+      }, 
+      { merge: true })
+      .catch((error) => {
+        alert(error.message)
+      })
+    }
 
-    // Stop listening for updates when no longer required
-    return () => subscriber();
   }, [newPose]);
 
   checkPose = () => {
-   navigation.navigate("Loading")
+    // if(poseSelected === null) {
+    //   return <Text>Loading</Text>
+    // }
+    navigation.navigate("Loading")
   }
+
+
+  // registerPose = () => {
+
+  // }
 
 
   return (
@@ -50,7 +54,7 @@ const PosesMenu = ({navigation}) => {
           renderItem={ ({item}) =>  
              <TouchableOpacity
                style={styles.buttonYogaPose}
-               onPress={() => {setPoseSelected(item.key), setNewPose(true), checkPose()}}
+               onPress={() => {setPoseSelected(item.key), setNewPose(!newPose), checkPose()}}
              >
                  <Text style={styles.textYogaPose} >{item.key}</Text>
              </TouchableOpacity>

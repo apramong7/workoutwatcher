@@ -8,10 +8,10 @@ import styles from '../../styles/UseStyle'
 
 
 const Instructions = () => {
-  const [handsInstructions, setHandsInstructions] = useState(null);
-  const [feetInstructions, setFeetInstructions] = useState(null);
-  const [handsPressure, setHandsPressure] = useState(null);
-  const [feetPressure, setFeetPressure] = useState(null);
+  const [rightFootInstructions, setrightFootInstructions] = useState(null);
+  const [leftFootInstructions, setleftFootInstructions] = useState(null);
+  const [rightFootPressure, setrightFootPressure] = useState(null);
+  const [leftFootPressure, setleftFootPressure] = useState(null);
 
   useEffect(() => {
     async function func1() { 
@@ -21,10 +21,10 @@ const Instructions = () => {
         .doc(firebase.auth().currentUser.uid)
         .onSnapshot(documentSnapshot => {
           // setIsPoseCorrect(documentSnapshot.data().isPoseCorrect)
-          setHandsInstructions(documentSnapshot.data().hands);
-          setFeetInstructions(documentSnapshot.data().feet);
-          setHandsPressure(documentSnapshot.data().pressureHands);
-          setFeetPressure(documentSnapshot.data().pressureFeet);
+          setrightFootInstructions(documentSnapshot.data().rightFoot);
+          setleftFootInstructions(documentSnapshot.data().leftFoot);
+          setrightFootPressure(documentSnapshot.data().pressureRightFoot);
+          setleftFootPressure(documentSnapshot.data().pressureLeftFoot);
         });
   
       // Stop listening for updates when no longer required
@@ -36,7 +36,7 @@ const Instructions = () => {
 
 
   getInstructions = (positionInst) => {
-    if (!handsInstructions || !feetInstructions || !handsPressure || !feetPressure) {
+    if (!rightFootInstructions || !leftFootInstructions || !rightFootPressure || !leftFootPressure) {
       return <Text>Loading...</Text>
     }
 
@@ -44,13 +44,13 @@ const Instructions = () => {
       return(
         <>
           <View style={styles.rowInstructions}>
-            {Object.keys(feetInstructions).map((keyNameFeet, i) => {
-              return (<Text key={i} style={styles.textInstructions}>{feetInstructions[keyNameFeet]}</Text>)
+            {Object.keys(leftFootInstructions).map((keyNameleftFoot, i) => {
+              return (<Text key={i} style={styles.textInstructions}>{leftFootInstructions[keyNameleftFoot]}</Text>)
             })} 
           </View> 
           <View style={styles.rowInstructions}>
-            {Object.keys(handsInstructions).map((keyName, i) => {
-              return (<Text key={i} style={styles.textInstructions}>{handsInstructions[keyName]}</Text>)
+            {Object.keys(rightFootInstructions).map((keyName, i) => {
+              return (<Text key={i} style={styles.textInstructions}>{rightFootInstructions[keyName]}</Text>)
             })} 
           </View>
         </>
@@ -61,16 +61,16 @@ const Instructions = () => {
     return(
       <>
         <View style={styles.rowInstructions}>
-          {Object.keys(feetPressure).map((keyNameFeet, i) => {
-            return (<Text key={i} style={styles.textInstructions}>{feetPressure[keyNameFeet]}</Text>)
+          {Object.keys(leftFootPressure).map((keyNameleftFoot, i) => {
+            return (<Text key={i} style={styles.textInstructions}>{leftFootPressure[keyNameleftFoot]}</Text>)
           })} 
-          <Icon name='foot' size={180} color='black' />
+          {/* <Icon name='foot' size={180} color='black' /> */}
         </View> 
         <View style={styles.rowInstructions}>
-          {Object.keys(handsPressure).map((keyName, i) => {
-            return (<Text key={i} style={styles.textInstructions}>{handsPressure[keyName]}</Text>)
+          {Object.keys(rightFootPressure).map((keyName, i) => {
+            return (<Text key={i} style={styles.textInstructions}>{rightFootPressure[keyName]}</Text>)
           })} 
-          <IconHand name='hand-left' size={180} color='black' />
+          {/* <IconHand name='hand-left' size={180} color='black' /> */}
         </View>
       </>
     )

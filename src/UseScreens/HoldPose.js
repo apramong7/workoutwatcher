@@ -48,7 +48,6 @@ const HoldPose = ({navigation}) => {
     <Text>Perfect! Hold the pose for 30 seconds</Text>
     <View>
       <TouchableOpacity
-    //   style={styles.enterButtonSection}
        onPress={() => {navigation.navigate('PosesMenu')}}
       >
          <Text style={styles.returnMenu} >Select another pose</Text>

@@ -14,10 +14,10 @@ const Use = () => {
   const [newPose, setNewPose] = useState(false);
   const [shoulderWidth, setShoulderWidth] = useState(null);
   const [hipWidth, setHipWidth] = useState(null);
-  const [handsInstructions, setHandsInstructions] = useState(null);
-  const [feetInstructions, setFeetInstructions] = useState(null);
-  const [handsPressure, setHandsPressure] = useState(null);
-  const [feetPressure, setFeetPressure] = useState(null);
+  const [rightFootInstructions, setrightFootInstructions] = useState(null);
+  const [leftFootInstructions, setleftFootInstructions] = useState(null);
+  const [rightFootPressure, setrightFootPressure] = useState(null);
+  const [leftFootPressure, setleftFootPressure] = useState(null);
   const [isPoseCorrect, setIsPoseCorrect] = useState(false);
   const [disabled, setDisable] = useState(true);
   const [returnToMenu, setReturnToMenu] = useState(false);
@@ -65,10 +65,10 @@ const Use = () => {
       .doc(firebase.auth().currentUser.uid)
       .onSnapshot(documentSnapshot => {
         setIsPoseCorrect(documentSnapshot.data().isPoseCorrect)
-        setHandsInstructions(documentSnapshot.data().hands);
-        setFeetInstructions(documentSnapshot.data().feet);
-        setHandsPressure(documentSnapshot.data().pressureHands);
-        setFeetPressure(documentSnapshot.data().pressureFeet);
+        setrightFootInstructions(documentSnapshot.data().rightFoot);
+        setleftFootInstructions(documentSnapshot.data().leftFoot);
+        setrightFootPressure(documentSnapshot.data().pressurerightFoot);
+        setleftFootPressure(documentSnapshot.data().pressureleftFoot);
       });
 
     // Stop listening for updates when no longer required
@@ -95,7 +95,7 @@ const Use = () => {
   }
 
  getInstructions = (positionInst) => {
-    if (!handsInstructions || !feetInstructions || !handsPressure || !feetPressure) {
+    if (!rightFootInstructions || !leftFootInstructions || !rightFootPressure || !leftFootPressure) {
       return <Text>Loading...</Text>
     }
 
@@ -103,13 +103,13 @@ const Use = () => {
       return(
         <>
           <View style={styles.rowInstructions}>
-            {Object.keys(feetInstructions).map((keyNameFeet, i) => {
-              return (<Text key={i} style={styles.textInstructions}>{feetInstructions[keyNameFeet]}</Text>)
+            {Object.keys(leftFootInstructions).map((keyNameleftFoot, i) => {
+              return (<Text key={i} style={styles.textInstructions}>{leftFootInstructions[keyNameleftFoot]}</Text>)
             })} 
           </View> 
           <View style={styles.rowInstructions}>
-            {Object.keys(handsInstructions).map((keyName, i) => {
-              return (<Text key={i} style={styles.textInstructions}>{handsInstructions[keyName]}</Text>)
+            {Object.keys(rightFootInstructions).map((keyName, i) => {
+              return (<Text key={i} style={styles.textInstructions}>{rightFootInstructions[keyName]}</Text>)
             })} 
           </View>
         </>
@@ -119,16 +119,16 @@ const Use = () => {
     return(
       <>
         <View style={styles.rowInstructions}>
-          {Object.keys(feetPressure).map((keyNameFeet, i) => {
-            return (<Text key={i} style={styles.textInstructions}>{feetPressure[keyNameFeet]}</Text>)
+          {Object.keys(leftFootPressure).map((keyNameleftFoot, i) => {
+            return (<Text key={i} style={styles.textInstructions}>{leftFootPressure[keyNameleftFoot]}</Text>)
           })} 
           <Icon name='foot' size={180} color='black' />
         </View> 
         <View style={styles.rowInstructions}>
-          {Object.keys(handsPressure).map((keyName, i) => {
-            return (<Text key={i} style={styles.textInstructions}>{handsPressure[keyName]}</Text>)
+          {Object.keys(rightFootPressure).map((keyName, i) => {
+            return (<Text key={i} style={styles.textInstructions}>{rightFootPressure[keyName]}</Text>)
           })} 
-          <IconHand name='hand-left' size={180} color='black' />
+        ?  <IconHand name='hand-left' size={180} color='black' />
         </View>
       </>
     )
