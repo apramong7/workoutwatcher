@@ -31,6 +31,18 @@ function App() {
     return () => subscriber();
   }, []);
 
+  setPiOn = (piState) => {
+    firebase.firestore().collection('users')
+    .doc(firebase.auth().currentUser.uid)
+    .set({ 
+      ['isPiOn']: piState,
+    }, 
+    { merge: true })
+    .catch((error) => {
+      alert(error.message)
+    })
+  }
+
 
   if(initializing) return null;
 
@@ -86,6 +98,7 @@ function App() {
         <Button 
           title="LOGOUT" 
           onPress={async () => {
+          setPiOn(false);
           props.navigation.closeDrawer();
           await firebase.auth().signOut()
         }}>LOGOUT</Button>

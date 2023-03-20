@@ -28,12 +28,13 @@ const Metrics = ({navigation}) => {
     }
   }, [shoulderWidth, hipWidth])
 
-  registerMetrics = (shoulderWidth, hipWidth) => {
+  registerMetrics = (shoulderWidth, hipWidth, piState) => {
     firebase.firestore().collection('users')
     .doc(firebase.auth().currentUser.uid)
     .set({ 
       ['shoulderWidth']:shoulderWidth,
-      ['hipWidth']: hipWidth 
+      ['hipWidth']: hipWidth,
+      ['isPiOn']: piState,
     }, 
     { merge: true })
     .catch((error) => {
@@ -86,7 +87,7 @@ const Metrics = ({navigation}) => {
        activeOpacity={disabled ? 1 : 0.4}
        onPress={() => {
         if(shoulderWidth && hipWidth) {
-          registerMetrics(shoulderWidth, hipWidth)
+          registerMetrics(shoulderWidth, hipWidth, true)
           navigation.navigate("PosesMenu")
         }
        }}

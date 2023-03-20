@@ -1,7 +1,14 @@
 {
   "name": "workoutwatcher",
+  "slug": "workoutwatcher",
   "version": "1.0.0",
   "main": "node_modules/expo/AppEntry.js",
+  "icon": "./assets/icon.png",
+  "splash": {
+    "image": "./assets/splassh.png",
+    "resizeMode": "cover",
+    "backgroundColor": "#ffffff"
+  },
   "scripts": {
     "start": "expo start",
     "android": "expo start --android",
@@ -33,5 +40,13 @@
   "devDependencies": {
     "@babel/core": "^7.12.9"
   },
-  "private": true
+  "private": true,
+  "android": {
+    "adaptiveIcon": {
+      "foregroundImage": "./assets/adaptive-icon.png",
+      "backgroundColor": "#FFFFFF"
+    },
+    "package": "com.workoutwatcher.myapp",
+    "versionCode": 1
+  }
 }
