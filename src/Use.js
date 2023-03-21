@@ -25,7 +25,8 @@ const Use = () => {
   const  YogaPoses = [
     { key: "Tree Pose" },
     { key: "Reclining Hero Pose" },
-    { key: "Warrior 1 Pose" },
+    { key: "Warrior 1 Pose Right" },
+    { key: "Warrior 1 Pose Left" },
     { key: "Triangle Pose" },
     { key: "Downward Dog Pose" },
   ]

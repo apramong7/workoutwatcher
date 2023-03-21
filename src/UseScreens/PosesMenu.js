@@ -5,11 +5,12 @@ import { SafeAreaView } from 'react-native-safe-area-context'
 import styles from '../../styles/UseStyle'
 
 const  YogaPoses = [
-  { key: "Tree Pose" },
-  { key: "Warrior 1 Pose" },
-  { key: "Warrior 2 Pose" },
-  { key: "Triangle Right Pose" },
-  { key: "Triangle Left Pose" },
+  { key: "Right Tree Pose" },
+  { key: "Left Tree Pose" },
+  { key: "Right Warrior 1 Pose" },
+  { key: "Left Warrior 1 Pose" },
+  { key: "Right Triangle Pose" },
+  { key: "Left Triangle Pose" },
 ]
 
 const PosesMenu = ({navigation}) => {
