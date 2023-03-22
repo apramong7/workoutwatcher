@@ -36,6 +36,19 @@ function App() {
     .doc(firebase.auth().currentUser.uid)
     .set({ 
       ['isPiOn']: piState,
+      ['poseSelected']: null,
+    }, 
+    { merge: true })
+    .catch((error) => {
+      alert(error.message)
+    })
+  }
+
+  setPoseSelectedtoNull = (nullPose) => {
+    firebase.firestore().collection('users')
+    .doc(firebase.auth().currentUser.uid)
+    .set({ 
+      ['poseSelected']: nullPose,
     }, 
     { merge: true })
     .catch((error) => {
@@ -99,6 +112,7 @@ function App() {
           title="LOGOUT" 
           onPress={async () => {
           setPiOn(false);
+          setPoseSelectedtoNull(null);
           props.navigation.closeDrawer();
           await firebase.auth().signOut()
         }}>LOGOUT</Button>

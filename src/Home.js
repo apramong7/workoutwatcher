@@ -30,15 +30,15 @@ const Home = () => {
     let dateLastLogInAt = new Date();
     dateLastLogInAt.setTime(lastLogInAt);
 
-    firebase.firestore().collection('users')
-    .doc(firebase.auth().currentUser.uid)
-    .set({ 
-      ['poseSelected']: null
-    }, 
-    { merge: true })
-    .catch((error) => {
-      alert(error.message)
-    })
+    // firebase.firestore().collection('users')
+    // .doc(firebase.auth().currentUser.uid)
+    // .set({ 
+    //   ['poseSelected']: null
+    // }, 
+    // { merge: true })
+    // .catch((error) => {
+    //   alert(error.message)
+    // })
 
     setLastLogin(dateLastLogInAt.toString().slice(0, 24));
   }, [])
