@@ -23,7 +23,13 @@ const PosesMenu = ({navigation}) => {
       firebase.firestore().collection('users')
       .doc(firebase.auth().currentUser.uid)
       .set({ 
-        ['poseSelected']: poseSelected,
+        ['rightFootDistance']: null,
+        ['rightFootRotation']: null,
+        ['leftFootDistance']: null,
+        ['leftFootRotation']: null,
+        ['pressureRightFoot']: null,
+        ['pressureLeftFoot']: null,
+        ['poseSelected']: poseSelected
       }, 
       { merge: true })
       .catch((error) => {

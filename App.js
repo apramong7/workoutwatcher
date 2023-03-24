@@ -49,6 +49,12 @@ function App() {
     .doc(firebase.auth().currentUser.uid)
     .set({ 
       ['poseSelected']: nullPose,
+      ['rightFootDistance']: null,
+      ['rightFootRotation']: null,
+      ['leftFootDistance']: null,
+      ['leftFootRotation']: null,
+      ['pressureRightFoot']: null,
+      ['pressureLeftFoot']: null
     }, 
     { merge: true })
     .catch((error) => {
