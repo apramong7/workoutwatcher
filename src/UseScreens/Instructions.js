@@ -8,8 +8,10 @@ import styles from '../../styles/UseStyle'
 
 
 const Instructions = () => {
-  const [rightFootInstructions, setrightFootInstructions] = useState(null);
-  const [leftFootInstructions, setleftFootInstructions] = useState(null);
+  const [rightFootDistance, setrightFootDistance] = useState(null);
+  const [leftFootDistance, setleftFootDistance] = useState(null);
+  const [rightFootRotation, setrightFootRotation] = useState(null);
+  const [leftFootRotation, setleftFootRotation] = useState(null);
   const [rightFootPressure, setrightFootPressure] = useState(null);
   const [leftFootPressure, setleftFootPressure] = useState(null);
 
@@ -20,9 +22,10 @@ const Instructions = () => {
         .collection('users')
         .doc(firebase.auth().currentUser.uid)
         .onSnapshot(documentSnapshot => {
-          // setIsPoseCorrect(documentSnapshot.data().isPoseCorrect)
-          setrightFootInstructions(documentSnapshot.data().rightFoot);
-          setleftFootInstructions(documentSnapshot.data().leftFoot);
+          setrightFootDistance(documentSnapshot.data().rightFootDistance);
+          setleftFootDistance(documentSnapshot.data().leftFootDistance);
+          setrightFootRotation(documentSnapshot.data().rightFootRotation);
+          setleftFootRotation(documentSnapshot.data().leftFootRotation);
           setrightFootPressure(documentSnapshot.data().pressureRightFoot);
           setleftFootPressure(documentSnapshot.data().pressureLeftFoot);
         });
@@ -36,7 +39,7 @@ const Instructions = () => {
 
 
   getInstructions = (positionInst) => {
-    if (!rightFootInstructions || !leftFootInstructions || !rightFootPressure || !leftFootPressure) {
+    if (!rightFootDistance && !leftFootDistance && !rightFootRotation && !leftFootRotation && !rightFootPressure && !leftFootPressure) {
       return <Text>Loading...</Text>
     }
 
@@ -44,15 +47,21 @@ const Instructions = () => {
       return(
         <>
           <View style={styles.rowInstructions}>
-            {Object.keys(leftFootInstructions).map((keyNameleftFoot, i) => {
-              return (<Text key={i} style={styles.textInstructions}>{leftFootInstructions[keyNameleftFoot]}</Text>)
+            {leftFootDistance && Object.keys(leftFootDistance).map((keyNameleftFoot, i) => {
+              return (<Text key={i} style={styles.textInstructions}>{leftFootDistance[keyNameleftFoot]}</Text>)
             })} 
-          </View> 
-          <View style={styles.rowInstructions}>
-            {Object.keys(rightFootInstructions).map((keyName, i) => {
-              return (<Text key={i} style={styles.textInstructions}>{rightFootInstructions[keyName]}</Text>)
+            {leftFootRotation && Object.keys(leftFootRotation).map((keyNameleftFoot, i) => {
+              return (<Text key={i} style={styles.textInstructions}>{leftFootRotation[keyNameleftFoot]}</Text>)
             })} 
-          </View>
+          
+   
+            {rightFootDistance && Object.keys(rightFootDistance).map((keyName, i) => {
+              return (<Text key={i} style={styles.textInstructions}>{rightFootDistance[keyName]}</Text>)
+            })} 
+            {rightFootRotation && Object.keys(rightFootRotation).map((keyName, i) => {
+              return (<Text key={i} style={styles.textInstructions}>{rightFootRotation[keyName]}</Text>)
+            })} 
+           </View> 
         </>
       )
     }
@@ -61,13 +70,11 @@ const Instructions = () => {
     return(
       <>
         <View style={styles.rowInstructions}>
-          {Object.keys(leftFootPressure).map((keyNameleftFoot, i) => {
+          {leftFootPressure && Object.keys(leftFootPressure).map((keyNameleftFoot, i) => {
             return (<Text key={i} style={styles.textInstructions}>{leftFootPressure[keyNameleftFoot]}</Text>)
           })} 
           {/* <Icon name='foot' size={180} color='black' /> */}
-        </View> 
-        <View style={styles.rowInstructions}>
-          {Object.keys(rightFootPressure).map((keyName, i) => {
+          {rightFootPressure && Object.keys(rightFootPressure).map((keyName, i) => {
             return (<Text key={i} style={styles.textInstructions}>{rightFootPressure[keyName]}</Text>)
           })} 
           {/* <IconHand name='hand-left' size={180} color='black' /> */}

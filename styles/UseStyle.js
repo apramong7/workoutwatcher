@@ -41,7 +41,7 @@ const styles = StyleSheet.create({
     paddingBottom: 25
   },
   rowInstructions: {
-    width: '50%', // is 50% of container width
+    width: '90%', // is 50% of container width
     padding: 10
   },
   textName: {
