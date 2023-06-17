@@ -11,6 +11,7 @@ import Home from './src/Home';
 import Use from './src/UseScreens/Use';
 import Analytics from './src/Analytics';
 import { Button } from 'react-native-paper';
+import { example } from './src/bluetooth';
 
 const Stack = createNativeStackNavigator();
 const Menu = createDrawerNavigator();
@@ -18,6 +19,7 @@ const Menu = createDrawerNavigator();
 function App() {
   const [initializing, setInitializing] = useState(true);
   const [user, setUser] = useState();
+  example;
 
 
   // Handle user state changes
